@@ -3,6 +3,12 @@ name = "pythonscientificcompcourse"
 version = "0.1.0"
 description = "PythonScientificCompCourse"
 authors = ["Sandun <SandunWebDev@gmail.com>"]
+license = "ISC License"
+readme = "README.md"
+repository = ""
+homepage = ""
+keywords = []
+packages = [ { include = "pythonscientificcompcourse", from = "src" } ]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -16,3 +22,6 @@ isort = "^5.9.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "pythonscientificcompcourse.cli:main"
