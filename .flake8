@@ -109,3 +109,12 @@ ignore =
     WPS433
     # implicit dict.get usage (generally false-positive)
     WPS529
+    #
+    # MY CUSTOM DISABLES
+    #
+    # Missing docstrings in public package, module, function.
+    D100
+    D103
+    D104
+    # Too short name.
+    WPS111

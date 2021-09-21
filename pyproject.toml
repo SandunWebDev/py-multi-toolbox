@@ -10,13 +10,25 @@ homepage = ""
 keywords = []
 packages = [ { include = "pythonscientificcompcourse", from = "src" } ]
 
+# Scripts to run user Packages/Modules (Ex. poetry run cli)
+[tool.poetry.scripts]
+cli = "pythonscientificcompcourse.cli:main"
+start = "pythonscientificcompcourse.starter:main"
+
+# Scripts to run Thirdparty Pacakges/Etc (Ex. poetry run task test)
+[tool.taskipy.tasks]
+test = "python -m pytest"
+test-watch = "poetry run pytest-watch"
+
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+pytest-watch = "^4.2.0"
 black = "^21.9b0"
 isort = "^5.9.3"
+taskipy = "^1.8.2"
 
 # Flake8
 darglint = "^1.5.8"
@@ -37,9 +49,6 @@ wps-light = "^0.15.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-start = "pythonscientificcompcourse.cli:main"
 
 [tool.black]
 line-length = 80
