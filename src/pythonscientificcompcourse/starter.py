@@ -1,4 +1,5 @@
 from arithmeticArranger import arrange_arithmetics
+from timeCalculator import add_time
 
 
 def arrange_arithmetics_runner():
@@ -18,8 +19,14 @@ def arrange_arithmetics_runner():
     print(result)
 
 
+def add_time_runner():
+    future_date = add_time("2:59 AM", "30:00")
+    print(future_date)
+
+
 def main():
-    arrange_arithmetics_runner()
+    # arrange_arithmetics_runner()
+    add_time_runner()
 
 
 if __name__ == "__main__":

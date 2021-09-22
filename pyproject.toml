@@ -29,7 +29,7 @@ lint-black="poetry run black ./ --diff"
 lint-black-fix="poetry run black ./"
 lint-flake8="poetry run flake8 ./"
 lint-all="task lint-isort && task lint-black && task lint-flake8"
-lint-all-fix="task lint-isort && task lint-black-fix && task lint-flake8"
+lint-all-fix="task lint-isort-fix && task lint-black-fix && task lint-flake8"
 
 [tool.poetry.dependencies]
 python = "^3.9"
