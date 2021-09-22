@@ -14,9 +14,10 @@
 
 def main(args=None):
     """
-    Run the main program.
+        Run the main program.
 
-    This function is executed when you type `pythonscientificcompcourse` or `python -m pythonscientificcompcourse`.
+    This function is executed when you type `pythonscientificcompcourse`
+        or `python -m pythonscientificcompcourse`.
 
     Arguments:
         args: Arguments passed from the command line.
