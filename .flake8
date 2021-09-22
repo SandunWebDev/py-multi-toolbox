@@ -73,6 +73,7 @@ ignore =
     # MY CUSTOM DISABLES
     #
 
+    B950    # Ignoring Large Line Lengths
     D100    # Missing docstrings in public package
     D103    # Missing docstrings in public module
     D104    # Missing docstrings in public function
@@ -81,3 +82,4 @@ ignore =
     WPS229  # Try ... Except can have limited lines.
     WPS407  # Mutable Constants
     WPS454  # Using "Exception" to catch all.
+    WPS462  # Wrong usage of Docstring Multiline. (Using as multiline comments)
