@@ -5,7 +5,8 @@
 	"main": "nodeLiveRunner.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon --watch ../../src --exec 'poetry run start' ../../src/pythonscientificcompcourse/starter.py"
+		"start": "nodemon --watch ../../src --exec 'poetry run start' ../../src/pythonscientificcompcourse/starter.py",
+		"start-playground": "nodemon --watch ../../src/playground --exec 'poetry run start-playground' ../../src/playground/playground.py"
 	},
 	"author": "",
 	"license": "ISC",
