@@ -22,21 +22,23 @@ dev = "cd ./scripts/nodeLiveRunner && npm run start"
 dev-playground = "cd ./scripts/nodeLiveRunner && npm run start-playground"
 test = "python -m pytest"
 test-watch = "poetry run pytest-watch"
+test-coverage = "poetry run pytest --cov"
 
-lint-isort="poetry run isort ./ --check"
-lint-isort-fix="poetry run isort ./"
-lint-black="poetry run black ./ --diff"
-lint-black-fix="poetry run black ./"
-lint-flake8="poetry run flake8 ./"
+lint-isort="poetry run isort --check"
+lint-isort-fix="poetry run isort"
+lint-black="poetry run black --diff"
+lint-black-fix="poetry run black"
+lint-flake8="poetry run flake8"
 lint-all="task lint-isort && task lint-black && task lint-flake8"
 lint-all-fix="task lint-isort-fix && task lint-black-fix && task lint-flake8"
+
+precommit-install = "poetry run pre-commit install"
+precommit-runinall = "poetry run pre-commit --all-files"
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
-pytest-watch = "^4.2.0"
 black = "^21.9b0"
 isort = "^5.9.3"
 taskipy = "^1.8.2"
@@ -57,6 +59,12 @@ flake8-variables-names = "^0.0.4"
 pep8-naming = "^0.12.1"
 wps-light = "^0.15.3"
 
+pytest = "^5.2"
+pytest-watch = "^4.2.0"
+pytest-cov = "^2.12.1"
+pre-commit = "^2.15.0"
+
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -75,3 +83,14 @@ default_section = "THIRDPARTY"
 known_first_party = "pythonscientificcompcourse"
 include_trailing_comma = true
 skip_gitignore=true
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
