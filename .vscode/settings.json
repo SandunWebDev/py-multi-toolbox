@@ -1,4 +1,6 @@
 {
-	"cSpell.words": ["noqa"],
-	"editor.tabSize": 4
+    "cSpell.words": [
+        "noqa"
+    ],
+    "editor.tabSize": 4
 }

@@ -1,5 +1,5 @@
 {
-	"execMap": {
-		"py": "python"
-	}
+    "execMap": {
+        "py": "python"
+    }
 }
