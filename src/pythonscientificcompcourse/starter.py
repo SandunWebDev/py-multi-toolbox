@@ -2,6 +2,7 @@ from arithmeticArranger import arrange_arithmetics
 from budgetExplorer.budget import Category as BudgetCategory
 from budgetExplorer.budget import create_spend_chart
 from polygonHandler import polygon
+from probabilityCalculator import probability as probability_calculator
 from timeCalculator import add_time
 
 
@@ -65,11 +66,24 @@ def polygon_handler_runner():
     print(sq)
 
 
+def probability_calculator_runner():
+    probability_calculator.random.seed(95)
+    hat = probability_calculator.Hat(yellow=5, red=1, green=3, blue=9, test=1)
+    probability = probability_calculator.experiment(
+        hat=hat,
+        expected_balls={"yellow": 2, "blue": 3, "test": 1},
+        num_balls_drawn=20,
+        num_experiments=100,
+    )
+    print("Probability:", probability)
+
+
 def main():
     # arrange_arithmetics_runner()
     # add_time_runner()
     # budget_explorer_runner()
-    polygon_handler_runner()
+    # polygon_handler_runner()
+    probability_calculator_runner()
 
 
 if __name__ == "__main__":
