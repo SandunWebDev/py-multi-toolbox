@@ -75,11 +75,18 @@ ignore =
 
     B950    # Ignoring Large Line Lengths
     D100    # Missing docstrings in public package
+    D101    # Missing docstrings in public classes.
     D103    # Missing docstrings in public module
     D104    # Missing docstrings in public function
+    D107    # Missing docstrings in public class __init__
     D202    # Docstring content should start in ''' line
     WPS111  # Too short name.
     WPS229  # Try ... Except can have limited lines.
     WPS407  # Mutable Constants
+    WPS426  # Lambda in Loops
+    WPS430  # Nested Functions
+    WPS432  # No magic numbers
+    WPS442  # Varaible Shadowing
     WPS454  # Using "Exception" to catch all.
     WPS462  # Wrong usage of Docstring Multiline. (Using as multiline comments)
+    WPS503  # Useless else statment

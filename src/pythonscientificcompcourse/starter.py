@@ -1,4 +1,6 @@
 from arithmeticArranger import arrange_arithmetics
+from budgetExplorer.budget import Category as BudgetCategory
+from budgetExplorer.budget import create_spend_chart
 from timeCalculator import add_time
 
 
@@ -24,9 +26,32 @@ def add_time_runner():
     print(future_date)
 
 
+def budget_explorer_runner():
+    food = BudgetCategory("Food")
+    food.deposit(1000, "initial deposit")
+    food.withdraw(10.15, "groceries")
+    food.withdraw(15.89, "restaurant and more food for dessert")
+
+    clothing = BudgetCategory("Clothing")
+    food.transfer(50, clothing)
+    clothing.withdraw(25.55)
+    clothing.withdraw(100)
+
+    auto = BudgetCategory("Auto")
+    auto.deposit(1000, "initial deposit")
+    auto.withdraw(15)
+
+    chart = create_spend_chart([food, clothing, auto])
+
+    print(food)
+    print("\n", clothing)
+    print("\n", chart)
+
+
 def main():
     # arrange_arithmetics_runner()
-    add_time_runner()
+    # add_time_runner()
+    budget_explorer_runner()
 
 
 if __name__ == "__main__":
