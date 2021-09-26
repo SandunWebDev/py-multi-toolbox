@@ -1,6 +1,7 @@
 from arithmeticArranger import arrange_arithmetics
 from budgetExplorer.budget import Category as BudgetCategory
 from budgetExplorer.budget import create_spend_chart
+from polygonHandler import polygon
 from timeCalculator import add_time
 
 
@@ -48,10 +49,27 @@ def budget_explorer_runner():
     print("\n", chart)
 
 
+def polygon_handler_runner():
+    rect = polygon.Rectangle(10, 15)
+
+    print(rect.get_area())
+    rect.set_width(20)
+    print(rect.get_perimeter())
+    print(rect)
+    print(rect.get_picture())
+
+    sq = polygon.Square(5)
+    print(sq.get_area())
+    sq.set_side(4)
+    print(sq.get_diagonal())
+    print(sq)
+
+
 def main():
     # arrange_arithmetics_runner()
     # add_time_runner()
-    budget_explorer_runner()
+    # budget_explorer_runner()
+    polygon_handler_runner()
 
 
 if __name__ == "__main__":
