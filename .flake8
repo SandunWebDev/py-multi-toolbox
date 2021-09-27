@@ -1,13 +1,15 @@
 [flake8]
-select = B,B9,C,D,DAR,E,F,N,RST,S,W
+# Flake8 Itslef Configs
+format=wemake
+count=True
+statistics=True
+select = B,B9,C,D,DAR,E,F,N,RST,S,W,DUO
+
+# Plugins Config
 max-line-length = 80
 max-complexity = 10
 docstring-convention = google
-rst-roles = class,const,func,meth,mod,ref
-rst-directives = deprecated
 ban-relative-imports = true
-
-per-file-ignores = tests/*:S101
 
 exclude =
     .git
@@ -90,3 +92,7 @@ ignore =
     WPS454  # Using "Exception" to catch all.
     WPS462  # Wrong usage of Docstring Multiline. (Using as multiline comments)
     WPS503  # Useless else statment
+
+per-file-ignores =
+    tests/*.py: S101                                    # There are multiple `assert`s in tests, we allow them:
+    src/budgetExplorer/budget_chart_helpers.py: WPS232  # High Module Cognivity:

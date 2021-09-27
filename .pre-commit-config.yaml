@@ -26,13 +26,26 @@ repos:
       - id: pytest
         name: Running Tests
         language: system
-        entry: pytest --cov --cov-fail-under=100 ./src
+        entry: pytest
         types: [python]
         pass_filenames: false
 
       - id: pytest-cov
         name: Testing Coverage
         entry: pytest --cov
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: mypy
+        name: MyPy Type Checking
+        entry: mypy
+        language: system
+        types: [python]
+
+      - id: safety
+        name: Check Third Party Package safety
+        entry: safety check
         language: system
         types: [python]
         pass_filenames: false

@@ -18,20 +18,28 @@ start-playground = "playground.playground:main"
 
 # Scripts to run Thirdparty Pacakges/Etc (Ex. poetry run task test)
 [tool.taskipy.tasks]
-dev = "cd ./scripts/nodeLiveRunner && npm run start"
-dev-playground = "cd ./scripts/nodeLiveRunner && npm run start-playground"
+# Developer Server
+dev = "cd ./scripts/nodejsRunner && npm run nodemon-dev"
+dev-playground = "cd ./scripts/nodejsRunner && npm run nodemon-playground"
+
+# Testing
 test = "python -m pytest"
 test-watch = "poetry run pytest-watch"
 test-coverage = "poetry run pytest --cov"
 
-lint-isort="poetry run isort --check"
-lint-isort-fix="poetry run isort"
+# Linting, Prettifying, TypeChecking, SecurityChecking, Etc..
+lint-isort="poetry run isort --check ./"
+lint-isort-fix="poetry run isort ./"
 lint-black="poetry run black --diff"
 lint-black-fix="poetry run black"
 lint-flake8="poetry run flake8"
-lint-all="task lint-isort && task lint-black && task lint-flake8"
-lint-all-fix="task lint-isort-fix && task lint-black-fix && task lint-flake8"
+lint-mypy="poetry run mypy"
+lint-pyright="cd ./scripts/nodejsRunner && npm run typecheck-pyright" # Optional Static Type Checker
+lint-safety="poetry run safety check"
+lint-all="task lint-isort && task lint-black && task lint-flake8 && task lint-mypy && task lint-safety"
+lint-all-fix="task lint-isort-fix && task lint-black-fix && task lint-flake8 && task lint-mypy && task lint-safety"
 
+# Pre-Commit Hooks Related
 precommit-install = "poetry run pre-commit install"
 precommit-runinall = "poetry run pre-commit --all-files"
 
@@ -39,11 +47,11 @@ precommit-runinall = "poetry run pre-commit --all-files"
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
+# Linting - Prettifying & Sorting
 black = "^21.9b0"
 isort = "^5.9.3"
-taskipy = "^1.8.2"
 
-# Flake8
+# Linting - Flake8 & Plugins
 darglint = "^1.5.8"
 flake8 = "^3.9.2"
 flake8-black = "^0.2.1"
@@ -51,19 +59,33 @@ flake8-bandit = "^2.1.2"
 flake8-bugbear = "^21.9.1"
 flake8-builtins = "^1.5.3"
 flake8-comprehensions = "^3.6.1"
+flake8-debugger = "^4.0.0"
 flake8-docstrings = "^1.6.0"
+flake8-isort = "^4.0.0"
 flake8-pytest-style = "^1.5.0"
 flake8-string-format = "^0.3.0"
+flake8-SQL = "^0.4.1"
 flake8-tidy-imports = "^4.4.1"
 flake8-variables-names = "^0.0.4"
 pep8-naming = "^0.12.1"
 wps-light = "^0.15.3"
+dlint = "^0.11.0"
 
+# Testing
 pytest = "^5.2"
 pytest-watch = "^4.2.0"
 pytest-cov = "^2.12.1"
-pre-commit = "^2.15.0"
 
+# Type Checkers
+mypy = "^0.910"             # Static Type Checking
+typeguard = "^2.12.1"       # Runtime Type Checking (Runtime Type Checking with Functions Call)
+pydantic = "^1.8.2"         # Runtime Type Checking (Runtime Data Validations with Errors)
+marshmallow = "^3.13.0"     # Runtime Type Checking (Runtime Data Validation with Schema)
+
+# Other
+taskipy = "^1.8.2"          # Poetry Task Runnner
+pre-commit = "^2.15.0"
+safety = "^1.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -85,7 +107,7 @@ include_trailing_comma = true
 skip_gitignore=true
 
 [tool.coverage.paths]
-source = ["src", "*/site-packages"]
+source = ["tests", "src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
@@ -94,3 +116,14 @@ source = ["src"]
 [tool.coverage.report]
 show_missing = true
 fail_under = 100
+
+[tool.mypy]
+strict = false
+pretty = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports=true
+warn_return_any = true
+warn_unused_configs = true
+files=["src","tests"]
