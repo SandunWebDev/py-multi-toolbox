@@ -5,7 +5,7 @@ WEEKDAY_NAME_LIST = list(calendar.day_name)
 
 
 def add_time(start_time, duration, start_day_name=None):
-    # Parsing "start_time" param's hours and miniutes values and,
+    # Parsing "start_time" parameter's hours and miniutes values and,
     #   creating datetime obj with those data.
     parsed_start_datetime = datetime.strptime(start_time, "%I:%M %p")
     current_datetime = datetime.now()

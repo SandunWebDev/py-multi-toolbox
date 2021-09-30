@@ -1,5 +1,3 @@
-# noqa: WPS232
-
 """Here we have defined multiple helper functions directly used by "budgetExplorer.budget" 's chart related functions."""
 
 

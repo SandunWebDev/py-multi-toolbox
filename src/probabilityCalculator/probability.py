@@ -19,7 +19,9 @@ class Hat:
 
         random_ball_list = []
         for _ in range(no_of_balls_to_draw):
-            random_index = random.randrange(0, len(self.contents))
+            random_index = random.randrange(  # noqa: DUO102, S311
+                0, len(self.contents)
+            )
 
             removed_ball = self.contents.pop(random_index)
             random_ball_list.append(removed_ball)
