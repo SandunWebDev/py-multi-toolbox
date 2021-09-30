@@ -40,6 +40,10 @@ lint-safety="poetry run safety check"
 lint-all="task lint-isort && task lint-black && task lint-flake8 && task lint-mypy && task lint-safety"
 lint-all-fix="task lint-isort-fix && task lint-black-fix && task lint-flake8 && task lint-mypy && task lint-safety"
 
+# Docs
+docs-liveserver="sphinx-autobuild docs/source/ docs/build/html --open-browser --watch ./"
+docs-build = "sphinx-build -b html docs/source/ docs/build/html"
+
 # Pre-Commit Hooks Related
 precommit-install = "poetry run pre-commit install"
 precommit-runinall = "poetry run pre-commit --all-files"
@@ -84,6 +88,12 @@ typeguard = "^2.12.1"       # Runtime Type Checking (Runtime Type Checking with 
 pydantic = "^1.8.2"         # Runtime Type Checking (Runtime Data Validations with Errors)
 marshmallow = "^3.13.0"     # Runtime Type Checking (Runtime Data Validation with Schema)
 
+# Docs
+Sphinx = "^4.2.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinx-autobuild = "^2021.3.14"
+myst-parser = "^0.15.2"
+
 # Other
 taskipy = "^1.8.2"          # Poetry Task Runnner
 pre-commit = "^2.15.0"
@@ -119,4 +129,4 @@ ignore_missing_imports=true
 warn_return_any = true
 warn_unused_configs = true
 files=["src","tests"]
-exclude = "tests/fixtures/"
+exclude = "docs"

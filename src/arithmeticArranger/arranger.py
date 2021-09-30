@@ -8,6 +8,19 @@ from arithmeticArranger.arranger_helpers import (
 
 
 def arrange_arithmetics(calc_string_list=None, should_calculate=False):
+    """Arrange Arithmetics.
+
+    Arrange given “Arithmetic Strings” into specific formatted way.
+
+    Args:
+        calc_string_list (list): List containing each arithmetic strings.
+        should_calculate (bool): Should display calculation result or not.
+
+    Returns:
+        str: Single string, formatted line by line.
+
+    """
+
     # Track arranged data details for each calc_string.
     arranged_calc_data_list = []
 
