@@ -25,7 +25,8 @@ dev-playground = "cd ./scripts/nodejsRunner && npm run nodemon-playground"
 # Testing
 test = "python -m pytest"
 test-watch = "poetry run pytest-watch"
-test-coverage = "poetry run pytest --cov"
+test-coverage = "coverage run -m pytest && coverage report"
+test-coverage-html = "coverage run -m pytest --cov --cov-report html --cov-report term && python ./scripts/html-coverage-opener/html-coverage-opener.py"
 
 # Linting, Prettifying, TypeChecking, SecurityChecking, Etc..
 lint-isort="poetry run isort --check ./"
@@ -75,6 +76,7 @@ dlint = "^0.11.0"
 pytest = "^5.2"
 pytest-watch = "^4.2.0"
 pytest-cov = "^2.12.1"
+coverage = "^5.5"
 
 # Type Checkers
 mypy = "^0.910"             # Static Type Checking
@@ -106,16 +108,6 @@ known_first_party = "pythonscientificcompcourse"
 include_trailing_comma = true
 skip_gitignore=true
 
-[tool.coverage.paths]
-source = ["tests", "src", "*/site-packages"]
-
-[tool.coverage.run]
-branch = true
-source = ["src"]
-
-[tool.coverage.report]
-show_missing = true
-fail_under = 100
 
 [tool.mypy]
 strict = false
@@ -127,3 +119,4 @@ ignore_missing_imports=true
 warn_return_any = true
 warn_unused_configs = true
 files=["src","tests"]
+exclude = "tests/fixtures/"

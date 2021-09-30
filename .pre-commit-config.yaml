@@ -32,7 +32,7 @@ repos:
 
       - id: pytest-cov
         name: Testing Coverage
-        entry: pytest --cov
+        entry: poetry run task test-coverage
         language: system
         types: [python]
         pass_filenames: false
