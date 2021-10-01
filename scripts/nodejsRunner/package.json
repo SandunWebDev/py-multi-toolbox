@@ -1,17 +1,17 @@
 {
-	"name": "nodejs-runner",
-	"version": "1.0.0",
-	"description": "",
-	"main": "nodejsRunner.js",
-	"scripts": {
-		"nodemon-dev": "nodemon --watch ../../src --exec 'poetry run start' ../../src/pythonscientificcompcourse/starter.py",
-		"nodemon-playground": "nodemon --watch ../../src/playground --exec 'poetry run start-playground' ../../src/playground/playground.py",
-		"typecheck-pyright": "pyright --stats"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"nodemon": "^2.0.12",
-		"pyright": "^1.1.171"
-	}
+    "name": "nodejs-runner",
+    "version": "1.0.0",
+    "description": "",
+    "main": "nodejsRunner.js",
+    "scripts": {
+        "nodemon-dev": "nodemon --watch ../../src --exec 'poetry run start' ../../src/pythonscientificcompcourse/starter.py",
+        "nodemon-playground": "nodemon --watch ../../src/playground --exec 'poetry run start-playground' ../../src/playground/playground.py",
+        "typecheck-pyright": "pyright --stats"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "nodemon": "^2.0.12",
+        "pyright": "^1.1.171"
+    }
 }
