@@ -23,7 +23,7 @@ dev = "cd ./scripts/nodejsRunner && npm run nodemon-dev"
 dev-playground = "cd ./scripts/nodejsRunner && npm run nodemon-playground"
 
 # Testing
-test = "python -m pytest"
+test = "poetry run pytest"
 test-watch = "poetry run pytest-watch"
 test-coverage = "coverage run -m pytest && coverage report"
 test-coverage-html = "coverage run -m pytest --cov --cov-report html --cov-report term && python ./scripts/html-coverage-opener/html-coverage-opener.py"
@@ -31,8 +31,8 @@ test-coverage-html = "coverage run -m pytest --cov --cov-report html --cov-repor
 # Linting, Prettifying, TypeChecking, SecurityChecking, Etc..
 lint-isort = "poetry run isort --check ./"
 lint-isort-fix = "poetry run isort ./"
-lint-black = "poetry run black --diff"
-lint-black-fix = "poetry run black"
+lint-black = "poetry run black --diff ./"
+lint-black-fix = "poetry run black ./"
 lint-flake8 = "poetry run flake8"
 lint-mypy = "poetry run mypy"
 lint-pyright = "cd ./scripts/nodejsRunner && npm run typecheck-pyright" # Optional Static Type Checker
@@ -41,8 +41,17 @@ lint-all = "task lint-isort && task lint-black && task lint-flake8 && task lint-
 lint-all-fix = "task lint-isort-fix && task lint-black-fix && task lint-flake8 && task lint-mypy && task lint-safety"
 
 # Docs
-docs-liveserver= "sphinx-autobuild docs/source/ docs/build/html --open-browser --watch ./"
+docs-liveserver = "sphinx-autobuild docs/source/ docs/build/html --open-browser --watch ./"
 docs-build = "sphinx-build -b html docs/source/ docs/build/html"
+docs-serve= "python -m http.server 8000 --directory ./docs/build/html"
+
+# Docker
+docker-development = "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans"
+docker-development-stop = "docker-compose -f docker-compose.yml -f docker-compose.development.yml down -v"
+docker-development-build = "docker-compose -f docker-compose.yml -f docker-compose.development.yml up --remove-orphans --build "
+docker-development-shell = "docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm pscc-service bash"
+docker-production = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans"
+docker-production-build = "docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build"
 
 # Pre-Commit Hooks Related
 precommit-install = "poetry run pre-commit install"
@@ -51,6 +60,7 @@ precommit-runinall = "poetry run pre-commit run --all-files"
 [tool.poetry.dependencies]
 python = "^3.9"
 requests = "^2.26.0"
+taskipy = "^1.8.2"  # Poetry Task Runnner
 
 [tool.poetry.dev-dependencies]
 # Linting - Prettifying & Sorting
@@ -96,17 +106,12 @@ sphinx-autobuild = "^2021.3.14"
 myst-parser = "^0.15.2"
 
 # Other
-taskipy = "^1.8.2"          # Poetry Task Runnner
 pre-commit = "^2.15.0"
 safety = "^1.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 80
-extend-exclude = ""
 
 [tool.isort]
 profile = "black"
@@ -119,6 +124,9 @@ known_first_party = "pythonscientificcompcourse"
 include_trailing_comma = true
 skip_gitignore=true
 
+[tool.black]
+line-length = 80
+extend-exclude = ""
 
 [tool.mypy]
 strict = false

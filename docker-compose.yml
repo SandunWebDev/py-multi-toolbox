@@ -1,0 +1,5 @@
+version: '3.8'
+
+services:
+  pscc-service: # pscc - Python Scientific Computation Course
+    build: .

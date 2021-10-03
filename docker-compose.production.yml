@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  pscc-service:
+    build:
+      target: production # Building only upto "production" stage in Dockerfile.
+    ports:
+      - 80:8000
+    image: pscc-image--prod
+    container_name: pscc-container--prod
+    command: ./docker/scripts/starter-production.sh

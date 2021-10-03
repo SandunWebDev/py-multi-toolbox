@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceRoot}/src"
+        },
+        {
+            "name": "Python: Module: pythonscientificcompcourse",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/src",
+            "module": "pythonscientificcompcourse"
+        },
+        {
+            "name": "Python: Module: arithmeticArranger",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/src",
+            "module": "arithmeticArranger.arranger"
+        }
+    ]
+}

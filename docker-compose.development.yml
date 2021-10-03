@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  pscc-service:
+    build:
+      target: development # Building only upto "development" stage in Dockerfile.
+    ports:
+      - 8000:8000 # Sphinx Docs Serve Port
+    image: pscc-image--dev
+    container_name: pscc-container--dev
+    command: ./docker/scripts/starter-development.sh
+
+    # Dynamic mounting. So hot reload & code editing can be done without building again and again.
+    volumes:
+      # Mounting Current host folder into container.
+      - .:/app
+
+      # Below is a workaround to prevent some host folders being mounted in to container. (Like .venv, node_modules, etc.)
+      #  So host venv, node_module, etc... folder don't have no effect on host/container. They act indipendent on each, witout conflicts.
+      #  Useful when want to use node/npm/etc... both outside container for test/lint, OR CI envoroments, etc.
+      #
+      # NOTE : Currently for some reasons "npm run xxx" scripts don't work when mounted like this. (Ex. npm run nodemon-start ----> Permission Error)
+      #         Have to find a way to resolve it.
+      - /app/.venv
+      - /app/scripts/nodejsRunner/node_modules
