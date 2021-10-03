@@ -30,15 +30,13 @@ jobs:
         name: 'Build Stage'
 
         # The type of runner that the job will run on.
+        # SIDE NOTE : This seems to pre-install python, node, docker, etc.. to fairly recent versions.
         runs-on: ubuntu-latest
 
         # Steps represent a sequence of tasks that will be executed as part of the job.
         steps:
-            - run: docker --version
-            - run: docker-compose --version
-
             # Displaying Initial Data About Action Triggered.
-            - name: Initialization
+            - name: Initialization Info
               run: |
                   echo ""
                   echo "Triggered By : ${{ github.event_name }} Event"
@@ -49,23 +47,12 @@ jobs:
             - name: Checkout Repo's Code
               uses: actions/checkout@v2
 
-            - name: List Files in the Repository
-              run: |
-                  echo $(pwd)
-                  ls -lsa ${{ github.workspace }}
-
-            - name: Checking Python 1
-              run: |
-                  python --version
-                  node --version
-                  env
-
             - name: Installing Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v2
               with:
                   python-version: ${{ env.PYTHON_VERSION }}
 
-            - name: Install Poetry
+            - name: Installing Poetry
               uses: snok/install-poetry@v1
               with:
                   version: ${{ env.POETRY_VERSION }}
@@ -73,12 +60,27 @@ jobs:
                   virtualenvs-in-project: ${{ env.POETRY_VIRTUALENVS_IN_PROJECT }}
                   installer-parallel: true
 
-            # Installing Python Production, Development Packages & Root Project as Well.
+            # Caching Python Packages Dependencies (For Faster Workflow)
+            - name: Caching/Loading Cached Venv
+              id: cached-poetry-dependencies
+              uses: actions/cache@v2
+              with:
+                  path: .venv
+                  key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+            # Installing Python Production, Development Packages & Root Project as Well. (If Cache Not Exist)
             - name: Install Python Project Dependencies
               run: poetry install --no-interaction
 
-            - name: Checking Python 2
-              run: poetry --version
+            # Installing NodeJS. (Used in custom development tools. Ex. nodemon)
+            - name: Installing NodeJS
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '14'
+                  cache: 'npm'
+
+            - name: Code Quality Check - Linting
+              run: precommit-runinall
 
             - name: Job Status
               run: echo "JOB STATUS - ${{ job.status }}"
