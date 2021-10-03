@@ -82,10 +82,10 @@ jobs:
                   cache-dependency-path: ./scripts/nodejsRunner/package-lock.json
 
             - name: AAA
-              run: pwd
+              run: poetry run task dev
 
             - name: Code Quality Check - Linting
-              run: precommit-runinall
+              run: poetry run task precommit-runinall
 
             - name: Job Status
               run: echo "JOB STATUS - ${{ job.status }}"
