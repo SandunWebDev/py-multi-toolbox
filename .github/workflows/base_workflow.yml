@@ -14,6 +14,8 @@ on:
 # Environment variables available in all jobs.
 env:
     PYTHON_VERSION: 3.9.6
+    POETRY_VERSION: 1.1.10
+    POETRY_VIRTUALENVS_IN_PROJECT: true
 
 # Default options applicable to all jobs.
 defaults:
@@ -53,13 +55,21 @@ jobs:
               run: |
                   python --version
                   node --version
-                  poetry --version
+                  env
 
             - name: Installing Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v2
               with:
                   python-version: ${{ env.PYTHON_VERSION }}
 
+            - name: Install Poetry
+              uses: snok/install-poetry@v1
+              with:
+                  version: 1.1.10
+                  virtualenvs-create: true
+                  virtualenvs-in-project: false
+                  virtualenvs-path: ~/my-custom-path
+                  installer-parallel: true
             - name: Checking Python 2
               run: python --version
 
