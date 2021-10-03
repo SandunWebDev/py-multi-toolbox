@@ -118,7 +118,7 @@ jobs:
         runs-on: ubuntu-latest
 
         # Wait until "build" stage successfully end. (So we can make sure all Linting, Tests, Etc.. are passed.)
-        needs: [build]
+        # needs: [build]
 
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it. (Notice using third-party action.)
