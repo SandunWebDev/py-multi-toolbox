@@ -25,7 +25,12 @@ defaults:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
-    # This workflow contains a single job called "build".
+    # "Build" Job
+    # On this job we are
+    #   - Installing main dependencies (Python, NodeJs, Poetry, ...)
+    #   - Installing Packages and Caching (poetry install, npm install, ...)
+    #   - Code Quality Check (Linting, Type Checking, Safety Checking, Testing, Docs, Etc...)
+    #   - Artifacts Building (Docs, ...)
     build:
         name: 'Build Stage'
 
@@ -97,19 +102,27 @@ jobs:
             - name: Installing NodeJS Project Dependencies
               run: cd ././scripts/nodejsRunner && npm install
 
-            - name: Code Quality Check - Linting
+            - name: Code Quality Check (Linting, Testing, Docs, Etc...)
               run: poetry run task precommit-runinall
+
+            # Currently only artifacts is Docs. (Which is already build on above Code Quality Check Step)
+            - name: Artifacts Building
+              run: echo "Artifacts Builded"
 
             - name: Job Status
               run: echo "JOB STATUS - ${{ job.status }}"
 
-    test:
-        name: 'Testing Stage'
+    # "Docker" Job
+    docker:
+        name: 'Docker Stage'
         runs-on: ubuntu-latest
+
+        # Wait until "build" stage successfully end. (So we can make sure all Linting, Tests, Etc.. are passed.)
         needs: [build]
+
         steps:
-            - name: AAA
-              run: |
-                  pwd
-                  poetry --version
-                  ls -lsa
+            - name: Dockerizing Production Build
+              run: poetry run task docker-production-build --no-start
+
+            - name: Checking Images
+              run: docker images
