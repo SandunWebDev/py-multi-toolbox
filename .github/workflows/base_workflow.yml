@@ -34,11 +34,8 @@ jobs:
 
         # Steps represent a sequence of tasks that will be executed as part of the job.
         steps:
-            - run: echo "APPLE 1"
-            - run: echo "APPLE 2"
-            - run: echo "APPLE 3"
-            - run: echo "APPLE 4"
-            - run: echo "APPLE 5"
+            - run: docker --version
+            - run: docker-compose --version
 
             # Displaying Initial Data About Action Triggered.
             - name: Initialization
