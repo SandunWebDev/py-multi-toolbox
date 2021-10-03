@@ -72,12 +72,17 @@ jobs:
             - name: Install Python Project Dependencies
               run: poetry install --no-interaction
 
-            # Installing NodeJS. (Used in custom development tools. Ex. nodemon)
+            # Installing NodeJS and Custom Project Dependencies. (Ex. ./scripts/nodejsRunner)
+            # (Used in custom development tools. Ex. nodemon)
             - name: Installing NodeJS
               uses: actions/setup-node@v2
               with:
                   node-version: '14'
                   cache: 'npm'
+                  cache-dependency-path: ./scripts/nodejsRunner/package-lock.json
+
+            - name: AAA
+              run: pwd
 
             - name: Code Quality Check - Linting
               run: precommit-runinall
