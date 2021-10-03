@@ -50,7 +50,10 @@ jobs:
                   ls -lsa ${{ github.workspace }}
 
             - name: Checking Python 1
-              run: python --version
+              run: |
+                  python --version
+                  node --version
+                  poetry --version
 
             - name: Installing Python ${{ env.PYTHON_VERSION }}
               uses: actions/setup-python@v2
