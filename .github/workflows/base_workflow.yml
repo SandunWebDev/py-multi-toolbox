@@ -122,7 +122,10 @@ jobs:
 
         steps:
             - name: Dockerizing Production Build
-              run: poetry run task docker-production-build --no-start
+              run: docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build --no-start
 
             - name: Checking Images
               run: docker images
+
+            - name: Checking Images
+              run: docker ps -a
