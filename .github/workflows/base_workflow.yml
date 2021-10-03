@@ -1,0 +1,137 @@
+name: Base Workflow - CI/CD
+
+# Controls when the workflow will run.
+on:
+    # Triggers the workflow on push or pull request events but only for the study branch.
+    push:
+        branches: [master, development, study]
+    pull_request:
+        branches: [master, development, study]
+
+    # Allows you to run this workflow manually from the Actions tab.
+    workflow_dispatch:
+
+# Environment variables available in all jobs.
+env:
+    PYTHON_VERSION: 3.9.6
+    POETRY_VERSION: 1.1.10
+    POETRY_VIRTUALENVS_IN_PROJECT: true
+
+# Default options applicable to all jobs.
+defaults:
+    run:
+        shell: bash
+        working-directory: ./
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+    # "Build" Job
+    # On this job we are
+    #   - Installing main dependencies (Python, NodeJs, Poetry, ...)
+    #   - Installing Packages and Caching (poetry install, npm install, ...)
+    #   - Code Quality Check (Linting, Type Checking, Safety Checking, Testing, Docs, Etc...)
+    #   - Artifacts Building (Docs, ...)
+    build:
+        name: 'Build Stage'
+
+        # The type of runner that the job will run on.
+        # SIDE NOTE : This seems to pre-install python, node, docker, etc.. to fairly recent versions.
+        runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks that will be executed as part of the job.
+        steps:
+            # Displaying Initial Data About Action Triggered.
+            - name: Initialization Info
+              run: |
+                  echo ""
+                  echo "Triggered By : ${{ github.event_name }} Event"
+                  echo "Current Repository : ${{ github.repository }} ON ${{ github.ref }} Branch "
+                  echo "Job OS : ${{ runner.os }}"
+
+            # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it. (Notice using third-party action.)
+            - name: Checkout Repo's Code
+              uses: actions/checkout@v2
+
+            - name: Installing Python ${{ env.PYTHON_VERSION }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ env.PYTHON_VERSION }}
+
+            - name: Installing Poetry
+              uses: snok/install-poetry@v1
+              with:
+                  version: ${{ env.POETRY_VERSION }}
+                  virtualenvs-create: true
+                  virtualenvs-in-project: ${{ env.POETRY_VIRTUALENVS_IN_PROJECT }}
+                  installer-parallel: true
+
+            # Caching Python Packages Dependencies (For Faster Workflow)
+            - name: Caching Cached Venv Dependencies
+              id: cached-poetry-dependencies
+              uses: actions/cache@v2
+              with:
+                  path: .venv
+                  key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+            # Installing Python Production, Development Packages & Root Project as Well. (If Cache Not Exist)
+            - name: Install Python Project Dependencies
+              run: poetry install --no-interaction
+
+            # Installing NodeJS (Used in custom development tools. Ex. nodemon)
+            - name: Installing NodeJS
+              uses: actions/setup-node@v2
+              with:
+                  node-version: '14'
+                  cache: 'npm'
+                  cache-dependency-path: ./scripts/nodejsRunner/package-lock.json
+
+            - name: Caching/Loading Node Modules
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-node-modules
+              with:
+                  # npm cache files are stored in `~/.npm` on Linux/macOS
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+
+            # Installing Node Project Dependencies
+            - name: Installing NodeJS Project Dependencies
+              run: cd ././scripts/nodejsRunner && npm install
+
+            # Code Quality
+            - name: Code Quality Check (Linting, Testing, Docs, Etc...)
+              run: poetry run task precommit-runinall
+
+            # Currently only artifacts is Docs. (Which is already build on above Code Quality Check Step)
+            - name: Artifacts Building
+              run: echo "Artifacts Builded"
+
+            - name: Job Status
+              run: echo "JOB STATUS - ${{ job.status }}"
+
+    # "Docker" Job
+    docker:
+        name: 'Docker Stage'
+        runs-on: ubuntu-latest
+
+        # Wait until "build" stage successfully end. (So we can make sure all Linting, Tests, Etc.. are passed.)
+        needs: [build]
+
+        steps:
+            # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it. (Notice using third-party action.)
+            - name: Checkout Repo's Code
+              uses: actions/checkout@v2
+
+            - name: Dockerizing Production Build
+              run: docker-compose -f docker-compose.yml -f docker-compose.production.yml up --remove-orphans --build --no-start
+
+            # In future, we can add more steps to push docker to docker hub, etc...
+            - name: Checking Images
+              run: docker images
+
+            - name: Job Status
+              run: echo "JOB STATUS - ${{ job.status }}"
