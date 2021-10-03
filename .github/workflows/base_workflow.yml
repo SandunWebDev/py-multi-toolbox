@@ -15,6 +15,8 @@ on:
 jobs:
     # This workflow contains a single job called "build".
     build:
+        name: 'Build Stage'
+
         # The type of runner that the job will run on.
         runs-on: ubuntu-latest
 
@@ -23,16 +25,19 @@ jobs:
             # Displaying Initial Data About Action Triggered.
             - name: Initialization
               run: |
-                  echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-                  echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-                  echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+                  echo ""
+                  echo "Triggered By : ${{ github.event_name }} Event."
+                  echo "Current Repository : ${{ github.repository }} ON ${{ github.ref }} Branch. "
+                  echo "Job OS : ${{ runner.os }}"
 
             # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it. (Notice using third-party action.)
             - name: Checkout Repo's Code
               uses: actions/checkout@v2
 
-            - name: List Files in the Repository.
-              run: ls ${{ github.workspace }}
+            - name: List Files in the Repository
+              run: |
+                  echo $(pwd)
+                  ls -lsa ${{ github.workspace }}
 
             - name: Job Status
-              run: echo "🍏 This job's status is ${{ job.status }}."
+              run: echo "JOB STATUS - ${{ job.status }}."
